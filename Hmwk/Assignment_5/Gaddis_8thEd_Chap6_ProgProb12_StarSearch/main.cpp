@@ -30,8 +30,6 @@ int main(int argc, char** argv) {
             "competition."<<endl;
     getJDat(j1,j2,j3,j4,j5);
     
-    //Map inputs to outputs or process the data
-    
     //Output the transformed data
     cout<<"This performer's average score was ";
     calcScr(j1,j2,j3,j4,j5);

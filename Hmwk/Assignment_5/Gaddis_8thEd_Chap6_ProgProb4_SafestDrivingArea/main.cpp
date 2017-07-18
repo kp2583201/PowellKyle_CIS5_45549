@@ -24,7 +24,6 @@ int main(int argc, char** argv) {
     
     //Input data
     getNAcc(n,s,e,w,c);
-    //Map inputs to outputs or process the data
     
     //Output the transformed data
     findLow(n,s,e,w,c);
