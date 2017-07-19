@@ -18,8 +18,16 @@ using namespace std; //Name-space under which system libraries exist
 //Global Constants
 
 //Function Prototypes
-char suit(char);
-char face(char);
+char suit(char);//determines the cards' suit
+char face(char);//determines the cards' face
+char pFlop(char,char,char,char,string);//pre-flop, cards dealt to players
+char flop(char,char,char,char,string,char,char,char);//flop, cards dealt to community
+char turn(char,char,char,char,string,char,char,char,char);//turn, card dealt to community
+char river(char,char,char,char,string,char,char,char,char,char);//river, card dealt to community
+char opHand(char);//determines opponent's hand
+char pHand(char);//determines player's hand
+void hands(char);//hands in Texas holdem
+char showdwn(char);//determines who has the highest hand
 
 //Execution begins here
 int main(int argc, char** argv) {
@@ -30,139 +38,48 @@ int main(int argc, char** argv) {
     char hCard1,hCard2,oHCard1,oHCard2;//cards dealt to hand player & opponent
     int coCard1,coCard2,coCard3,coCard4,coCard5;//community cards
     string bet;//call or fold choice
+    char choice;//
     
-    //Map inputs to outputs or process the data
+    //Menu 
+    cout<<"Welcome to the table. The game is Texas Hold'em. "<<endl;
+    cout<<"Would you like to be dealt in?"<<endl;
+    cout<<"Select 1 to be dealt in."<<endl;
+    cout<<"Select 2 to leave the table."<<endl;
+    cin>>choice;
     
     //Pre-Flop (Deal cards to players)
-        //Opponent's Hole Cards
-        oHCard1=rand()%52+1;
-        oHCard2=rand()%52+1;
-        //cout<<face(oHCard2)<<suit(oHCard2)<<endl;//test
-        if(face(oHCard1)==face(oHCard2)&&suit(oHCard1)==suit(oHCard2)){
-            while(oHCard2==oHCard1){
-                oHCard2=rand()%52+1;
-            }
-        }
-        /*//Remove (only for test)
-        cout<<"Your Opponent's Hand"<<endl;
-        cout<<"Card = "<<face(oHCard1)<<suit(oHCard1)<<endl;
-        cout<<"Card = "<<face(oHCard2)<<suit(oHCard2)<<endl;*/
-
-        //Player's Hole Cards
-        hCard1=rand()%52+1;
-        hCard2=rand()%52+1;
-        //cout<<face(hCard1)<<suit(hCard1)<<endl;//test
-        //cout<<face(hCard2)<<suit(hCard2)<<endl;//test
-        cout<<"Your Hand"<<endl;
-        if(hCard1==oHCard1||hCard1==oHCard2){
-            while(hCard1==oHCard1||hCard1==oHCard2){
-                hCard1=rand()%52+1;
-                //cout<<"DO W 1 "<<face(hCard1)<<suit(hCard1)<<endl;//test
-            }
-        }
-        if(hCard2==oHCard1||hCard2==oHCard2||hCard1==hCard2){
-            do{
-                hCard2=rand()%52+1;
-                //cout<<"DO W 2 "<<face(hCard2)<<suit(hCard2)<<endl;//test
-            }while(hCard2==oHCard1||hCard2==oHCard2||hCard1==hCard2);
-        }
-        cout<<"Card = "<<face(hCard1)<<suit(hCard1)<<endl;
-        cout<<"Card = "<<face(hCard2)<<suit(hCard2)<<endl<<endl;
-        
-        //Input data
-        cout<<"Your opponent placed an initial bet of $0 into the pot. "
-                "Do you want to call or fold? (Enter \"call\" or \"fold\" "
-                "to choose) "<<endl;
-        cin>>bet;
-        if(bet=="call"){
-            cout<<"You called your opponent's bet of $0, the flop is being "
-                    "dealt... "<<endl<<endl;
-        }else{
-            cout<<"You folded. Your opponent won the pot of $0. ";
-            return 0;
-        }
+        pFlop(oHCard1,oHCard2,hCard1,hCard2,bet);
     
     //The Flop (Deal community cards)
-        //Community Cards
-        cout<<"Community Cards"<<endl;
-        coCard1=rand()%52+1;
-        //cout<<"Com Card 1 = "<<face(coCard1)<<suit(coCard1)<<endl;//test
-        if(coCard1==hCard1||coCard1==oHCard1||coCard1==oHCard2||
-                coCard1==hCard2){
-            do{
-                coCard1=rand()%52+1;
-                //cout<<"DO W 1 "<<face(coCard1)<<suit(coCard1)<<endl;//test
-            }while(coCard1==hCard1||coCard1==oHCard1||coCard1==oHCard2||
-                    coCard1==hCard2);
-        }
-        coCard2=rand()%52+1;
-        //cout<<"Com Card 2 = "<<face(coCard2)<<suit(coCard2)<<endl;//test
-        if(coCard2==hCard1||coCard2==oHCard1||coCard2==oHCard2||coCard2==hCard2
-                ||coCard2==coCard1){
-            do{
-                coCard2=rand()%52+1;
-                //cout<<"DO W 2 "<<face(coCard2)<<suit(coCard2)<<endl;//test
-            }while(coCard2==hCard1||coCard2==oHCard1||coCard2==oHCard2||
-                    coCard2==hCard2||coCard2==coCard1);
-        }
-        coCard3=rand()%52+1;
-        //cout<<"Com Card 3 = "<<face(coCard3)<<suit(coCard3)<<endl;//test
-        if(coCard3==hCard1||coCard3==oHCard1||coCard3==oHCard2||coCard3==hCard2
-                ||coCard3==coCard2||coCard3==coCard1){
-            do{
-                coCard3=rand()%52+1;
-                //cout<<"DO W 3 "<<face(coCard3)<<suit(coCard3)<<endl;//test
-            }while(coCard3==hCard1||coCard3==oHCard1||coCard3==oHCard2||
-                    coCard3==hCard2||coCard3==coCard2||coCard3==coCard1);
-        }
-        cout<<"Community Cards = "<<face(coCard1)<<suit(coCard1)<<setw(3)<<
-                face(coCard2)<<suit(coCard2)<<setw(3)<<face(coCard3)<<
-                suit(coCard3)<<endl;
-        cout<<"Your Hand"<<endl;
-        cout<<"Card = "<<face(hCard1)<<suit(hCard1)<<endl;
-        cout<<"Card = "<<face(hCard2)<<suit(hCard2)<<endl<<endl;
-        //Input data
-        cout<<"Your opponent called. Do you want to call or fold? "
-                "(Enter \"call\" or \"fold\" to choose)"<<endl;
-        cin>>bet;
-        if(bet=="call"){
-            cout<<"You called. The turn is being dealt... "<<endl<<endl;
-        }else{
-            cout<<"You folded. Your opponent won the pot of $0. ";
-            return 0;
-        }
+        flop(oHCard1,oHCard2,hCard1,hCard2,bet,coCard1,coCard2,coCard3);
     
     //The Turn (Deal Community Card)
-        coCard4=rand()%52+1;
-        //cout<<"Com Card 4 = "<<face(coCard4)<<suit(coCard4)<<endl;//test
-        if(coCard4==hCard1||coCard4==oHCard1||coCard4==oHCard2||coCard4==hCard2
-                ||coCard4==coCard2||coCard4==coCard1||coCard4==coCard3){
-            do{
-                coCard4=rand()%52+1;
-                //cout<<"DO W 4 "<<face(coCard4)<<suit(coCard4)<<endl;//test
-            }while(coCard4==hCard1||coCard4==oHCard1||coCard4==oHCard2||
-                    coCard4==hCard2||coCard4==coCard2||coCard4==coCard1||
-                    coCard4==coCard3);
-        }
+        turn(oHCard1,oHCard2,hCard1,hCard2,bet,coCard1,coCard2,coCard3,coCard4);
+        
+    //The River (Deal Community Card)
+        river(oHCard1,oHCard2,hCard1,hCard2,bet,coCard1,coCard2,coCard3,
+                coCard4,coCard5);
+        
+    //Showdown
         cout<<"Community Cards = "<<face(coCard1)<<suit(coCard1)<<setw(3)<<
                 face(coCard2)<<suit(coCard2)<<setw(3)<<face(coCard3)<<
-                suit(coCard3)<<setw(3)<<face(coCard4)<<suit(coCard4)<<endl;
+                suit(coCard3)<<setw(3)<<face(coCard4)<<suit(coCard4)<<
+                setw(3)<<face(coCard5)<<suit(coCard5)<<endl<<endl;
+        cout<<"Your Opponent's Hand"<<endl;
+        cout<<"Card = "<<face(oHCard1)<<suit(oHCard1)<<endl;
+        cout<<"Card = "<<face(oHCard2)<<suit(oHCard2)<<endl<<endl;
         cout<<"Your Hand"<<endl;
         cout<<"Card = "<<face(hCard1)<<suit(hCard1)<<endl;
         cout<<"Card = "<<face(hCard2)<<suit(hCard2)<<endl<<endl;
-        //Input Data
-        cout<<"Your opponent called. Do you want to call or fold? "
-                "(Enter \"call\" or \"fold\" to choose)"<<endl;
-        cin>>bet;
-        if(bet=="call"){
-            cout<<"You called. The river is being dealt... "<<endl<<endl;
-        }else{
-            cout<<"You folded. Your opponent won the pot of $0. ";
-            return 0;
-        }
-        
-    //The River (Deal Community Card)
-        coCard5=rand()%52+1;
+    
+    
+    //Exit stage right!
+    return 0;
+}
+
+char river(char oHCard1,char oHCard2,char hCard1,char hCard2,string bet, 
+        char coCard1,char coCard2,char coCard3,char coCard4,char coCard5){
+    coCard5=rand()%52+1;
         //cout<<"Com Card 5 = "<<face(coCard5)<<suit(coCard5)<<endl;//test
         if(coCard5==hCard1||coCard5==oHCard1||coCard5==oHCard2||coCard5==hCard2
                 ||coCard5==coCard2||coCard5==coCard1||coCard5==coCard3||
@@ -189,22 +106,127 @@ int main(int argc, char** argv) {
             cout<<"You called. Reveal your cards... "<<endl<<endl;
         }else{
             cout<<"You folded. Your opponent won the pot of $0. ";
-            return 0;
+            //exit();
+        }
+        return coCard5;
+}
+
+char turn(char oHCard1,char oHCard2,char hCard1,char hCard2,string bet, 
+        char coCard1,char coCard2,char coCard3,char coCard4){
+    coCard4=rand()%52+1;
+        //cout<<"Com Card 4 = "<<face(coCard4)<<suit(coCard4)<<endl;//test
+        if(coCard4==hCard1||coCard4==oHCard1||coCard4==oHCard2||coCard4==hCard2
+                ||coCard4==coCard2||coCard4==coCard1||coCard4==coCard3){
+            do{
+                coCard4=rand()%52+1;
+                //cout<<"DO W 4 "<<face(coCard4)<<suit(coCard4)<<endl;//test
+            }while(coCard4==hCard1||coCard4==oHCard1||coCard4==oHCard2||
+                    coCard4==hCard2||coCard4==coCard2||coCard4==coCard1||
+                    coCard4==coCard3);
         }
         cout<<"Community Cards = "<<face(coCard1)<<suit(coCard1)<<setw(3)<<
                 face(coCard2)<<suit(coCard2)<<setw(3)<<face(coCard3)<<
-                suit(coCard3)<<setw(3)<<face(coCard4)<<suit(coCard4)<<
-                setw(3)<<face(coCard5)<<suit(coCard5)<<endl<<endl;
-        cout<<"Your Opponent's Hand"<<endl;
-        cout<<"Card = "<<face(oHCard1)<<suit(oHCard1)<<endl;
-        cout<<"Card = "<<face(oHCard2)<<suit(oHCard2)<<endl<<endl;
+                suit(coCard3)<<setw(3)<<face(coCard4)<<suit(coCard4)<<endl;
         cout<<"Your Hand"<<endl;
         cout<<"Card = "<<face(hCard1)<<suit(hCard1)<<endl;
         cout<<"Card = "<<face(hCard2)<<suit(hCard2)<<endl<<endl;
-        
-    
-    //Exit stage right!
-    return 0;
+        //Input Data
+        cout<<"Your opponent called. Do you want to call or fold? "
+                "(Enter \"call\" or \"fold\" to choose)"<<endl;
+        cin>>bet;
+        if(bet=="call"){
+            cout<<"You called. The river is being dealt... "<<endl<<endl;
+        }else{
+            cout<<"You folded. Your opponent won the pot of $0. ";
+            //exit();
+        }
+        return coCard4;
+}
+
+char flop(char oHCard1,char oHCard2,char hCard1,char hCard2,string bet, 
+        char coCard1,char coCard2,char coCard3){
+    //Community Cards
+        coCard1=rand()%52+1;
+        if(coCard1==hCard1||coCard1==oHCard1||coCard1==oHCard2||
+                coCard1==hCard2){
+            do{
+                coCard1=rand()%52+1;
+            }while(coCard1==hCard1||coCard1==oHCard1||coCard1==oHCard2||
+                    coCard1==hCard2);
+        }
+        coCard2=rand()%52+1;
+        if(coCard2==hCard1||coCard2==oHCard1||coCard2==oHCard2||coCard2==hCard2
+                ||coCard2==coCard1){
+            do{
+                coCard2=rand()%52+1;
+            }while(coCard2==hCard1||coCard2==oHCard1||coCard2==oHCard2||
+                    coCard2==hCard2||coCard2==coCard1);
+        }
+        coCard3=rand()%52+1;
+        if(coCard3==hCard1||coCard3==oHCard1||coCard3==oHCard2||coCard3==hCard2
+                ||coCard3==coCard2||coCard3==coCard1){
+            do{
+                coCard3=rand()%52+1;
+            }while(coCard3==hCard1||coCard3==oHCard1||coCard3==oHCard2||
+                    coCard3==hCard2||coCard3==coCard2||coCard3==coCard1);
+        }
+        cout<<"Community Cards = "<<face(coCard1)<<suit(coCard1)<<setw(3)<<
+                face(coCard2)<<suit(coCard2)<<setw(3)<<face(coCard3)<<
+                suit(coCard3)<<endl;
+        cout<<"Your Hand"<<endl;
+        cout<<"Card = "<<face(hCard1)<<suit(hCard1)<<endl;
+        cout<<"Card = "<<face(hCard2)<<suit(hCard2)<<endl<<endl;
+        //Input data
+        cout<<"Your opponent called. Do you want to call or fold? "
+                "(Enter \"call\" or \"fold\" to choose)"<<endl;
+        cin>>bet;
+        if(bet=="call"){
+            cout<<"You called. The turn is being dealt... "<<endl<<endl;
+        }else{
+            cout<<"You folded. Your opponent won the pot of $0. ";
+            //exit();
+        }
+        return coCard1,coCard2,coCard3;
+}
+
+char pFlop(char oHCard1,char oHCard2,char hCard1,char hCard2,string bet){
+    //Opponent's Hole Cards
+        oHCard1=rand()%52+1;
+        oHCard2=rand()%52+1;
+        if(oHCard1==oHCard2){
+            while(oHCard2==oHCard1){
+                oHCard2=rand()%52+1;
+            }
+        }
+        //Player's Hole Cards
+        hCard1=rand()%52+1;
+        hCard2=rand()%52+1;
+        cout<<"Your Hand"<<endl;
+        if(hCard1==oHCard1||hCard1==oHCard2){
+            while(hCard1==oHCard1||hCard1==oHCard2){
+                hCard1=rand()%52+1;
+            }
+        }
+        if(hCard2==oHCard1||hCard2==oHCard2||hCard1==hCard2){
+            do{
+                hCard2=rand()%52+1;
+            }while(hCard2==oHCard1||hCard2==oHCard2||hCard1==hCard2);
+        }
+        cout<<"Card = "<<face(hCard1)<<suit(hCard1)<<endl;
+        cout<<"Card = "<<face(hCard2)<<suit(hCard2)<<endl<<endl;
+        //Input data
+        cout<<"Your opponent placed an initial bet of $0 into the pot. "
+                "Do you want to call or fold? (Enter \"call\" or \"fold\" "
+                "to choose) "<<endl;
+        cin>>bet;
+        if(bet=="call"){
+            cout<<"You called your opponent's bet of $0, the flop is being "
+                    "dealt... "<<endl<<endl;
+        }else{
+            cout<<"You folded. Your opponent won the pot of $0. ";
+            //exit ();
+        }
+        return oHCard1,oHCard2,hCard1,hCard2;
 }
 
 char face(char card){
