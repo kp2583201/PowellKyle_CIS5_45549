@@ -192,26 +192,34 @@ char flop(char oHCard1,char oHCard2,char hCard1,char hCard2,string bet,
 char pFlop(char oHCard1,char oHCard2,char hCard1,char hCard2,string bet){
     //Opponent's Hole Cards
         oHCard1=rand()%52+1;
+        cout<<"oHCard1 B4 = "<<face(oHCard1)<<suit(oHCard1)<<endl;//test
         oHCard2=rand()%52+1;
+        cout<<"oHCard2 B4 = "<<face(oHCard2)<<suit(oHCard2)<<endl;//test
         if(oHCard1==oHCard2){
             while(oHCard2==oHCard1){
                 oHCard2=rand()%52+1;
             }
         }
+        cout<<"oHCard1 Aft = "<<face(oHCard1)<<suit(oHCard1)<<endl;//test
+        cout<<"oHCard2 Aft = "<<face(oHCard2)<<suit(oHCard2)<<endl;//test
         //Player's Hole Cards
         hCard1=rand()%52+1;
+        cout<<"hCard1 B4 = "<<face(hCard1)<<suit(hCard1)<<endl;//test
         hCard2=rand()%52+1;
+        cout<<"hCard2 B4 = "<<face(hCard2)<<suit(hCard2)<<endl;//test
         cout<<"Your Hand"<<endl;
         if(hCard1==oHCard1||hCard1==oHCard2){
             while(hCard1==oHCard1||hCard1==oHCard2){
                 hCard1=rand()%52+1;
             }
         }
+        cout<<"hCard1 Aft = "<<face(hCard1)<<suit(hCard1)<<endl;
         if(hCard2==oHCard1||hCard2==oHCard2||hCard1==hCard2){
             do{
                 hCard2=rand()%52+1;
             }while(hCard2==oHCard1||hCard2==oHCard2||hCard1==hCard2);
         }
+        cout<<"hCard2 Aft = "<<face(hCard2)<<suit(hCard2)<<endl;
         cout<<"Card = "<<face(hCard1)<<suit(hCard1)<<endl;
         cout<<"Card = "<<face(hCard2)<<suit(hCard2)<<endl<<endl;
         //Input data
