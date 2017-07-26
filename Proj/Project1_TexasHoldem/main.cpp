@@ -20,8 +20,8 @@ using namespace std; //Name-space under which system libraries exist
 //Function Prototypes
 char suit(char);//determines the cards' suit
 char face(char);//determines the cards' face
-char pFlop(char,char,char,char,string);//pre-flop, cards dealt to players
-char flop(char,char,char,char,string,char,char,char);//flop, cards dealt to community
+char pFlop(char &,char &,char &,char &,string);//pre-flop, cards dealt to players
+char flop(char &,char &,char &,char &,string,char,char,char);//flop, cards dealt to community
 char turn(char,char,char,char,string,char,char,char,char);//turn, card dealt to community
 char river(char,char,char,char,string,char,char,char,char,char);//river, card dealt to community
 char opHand(char);//determines opponent's hand
@@ -48,17 +48,19 @@ int main(int argc, char** argv) {
     cin>>choice;
     
     //Pre-Flop (Deal cards to players)
-        pFlop(oHCard1,oHCard2,hCard1,hCard2,bet);
+        cout<<pFlop(&oHCard1,&oHCard2,&hCard1,&hCard2,bet)<<endl;
     
     //The Flop (Deal community cards)
-        flop(oHCard1,oHCard2,hCard1,hCard2,bet,coCard1,coCard2,coCard3);
+        cout<<flop(&oHCard1,&oHCard2,&hCard1,&hCard2,bet,coCard1,coCard2,coCard3)
+                <<endl;
     
     //The Turn (Deal Community Card)
-        turn(oHCard1,oHCard2,hCard1,hCard2,bet,coCard1,coCard2,coCard3,coCard4);
+        cout<<turn(oHCard1,oHCard2,hCard1,hCard2,bet,coCard1,coCard2,coCard3,
+                coCard4)<<endl;
         
     //The River (Deal Community Card)
-        river(oHCard1,oHCard2,hCard1,hCard2,bet,coCard1,coCard2,coCard3,
-                coCard4,coCard5);
+        cout<<river(oHCard1,oHCard2,hCard1,hCard2,bet,coCard1,coCard2,coCard3,
+                coCard4,coCard5)<<endl;
         
     //Showdown
         cout<<"Community Cards = "<<face(coCard1)<<suit(coCard1)<<setw(3)<<
@@ -143,7 +145,7 @@ char turn(char oHCard1,char oHCard2,char hCard1,char hCard2,string bet,
         return coCard4;
 }
 
-char flop(char oHCard1,char oHCard2,char hCard1,char hCard2,string bet, 
+char flop(char &oHCard1,char &oHCard2,char &hCard1,char &hCard2,string bet, 
         char coCard1,char coCard2,char coCard3){
     //Community Cards
         coCard1=rand()%52+1;
@@ -189,7 +191,7 @@ char flop(char oHCard1,char oHCard2,char hCard1,char hCard2,string bet,
         return coCard1,coCard2,coCard3;
 }
 
-char pFlop(char oHCard1,char oHCard2,char hCard1,char hCard2,string bet){
+char pFlop(char &oHCard1,char &oHCard2,char &hCard1,char &hCard2,string bet){
     //Opponent's Hole Cards
         oHCard1=rand()%52+1;
         cout<<"oHCard1 B4 = "<<face(oHCard1)<<suit(oHCard1)<<endl;//test
@@ -261,5 +263,4 @@ char suit(char card){
     if(card<=39)return 'C';//C -> Clubs
     return 'H';//H -> Hearts;
 }
-
 
