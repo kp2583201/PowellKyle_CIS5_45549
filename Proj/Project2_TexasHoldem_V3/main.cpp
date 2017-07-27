@@ -65,7 +65,7 @@ int main(int argc, char** argv) {
     
 //Loop
     cout<<"\n\nWelcome to the Table. This is a low stakes game, so the average "
-            "pot is usually less than $50. "<<"\nThe buy-in is $"<<pMoney<<"."<<endl;
+            "pot is usually less than $100. "<<"\nThe buy-in is $"<<pMoney<<"."<<endl;
     do{
         if (replay==true){
             
@@ -155,18 +155,21 @@ int main(int argc, char** argv) {
         //comprising hands of opponent
         
         //comprising hands of player
-        char count[F];//counter array
-        int numpair=0;
+        int count[F]={};//counter array
+        int numpair=0;//counts the number of pairs
         for(int i=0; i<9; i++){//how many cards make a hand
             for(int j=0; j<F; j++){//comparing each card to face
-                if(shwface(cards,i)==face[j]){
+                numpair=0;//resets pair counter 
+                if(shwface(cards,i)==face[j]){//how many cards have the same face
                     numpair++;
                     count[j]=numpair;
                 }
-            }for(int loop=0;loop<F;loop++)cout<<"number of pairs "<<count[loop]<<endl;
+            }
         }cout<<endl;
-        numpair=0;
-        for(int i=0; i<9; i++){//how many cards make a hand
+        for(int loop=0;loop<F;loop++)cout<<"number of cards with same face value"
+                " "<<count[loop]<<endl;
+        cout<<endl<<endl;
+        for(int i=4; i<9; i++){//how many cards make a hand
             cout<<"number of pairs "<<numpair<<endl;
             for(int j=0; j<4; j++){//comparing each card to face
                 if(shwsuit(cards,i)==suit[j])numpair++;
@@ -216,7 +219,7 @@ void dealBet(int cards[],int size,float &oMoney,float &pot,float &pMoney,float &
         //Output all visible cards, community cards and player hole cards
             
         //Opponent's bet
-            bet=rand()%25+1;
+            bet=rand()%15+1;
             oMoney-=bet;
             pot+=bet;
             cout<<"bet "<<bet<<endl<<endl;
