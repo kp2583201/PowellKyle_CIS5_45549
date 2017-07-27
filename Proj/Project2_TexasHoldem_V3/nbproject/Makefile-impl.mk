@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=Project2_TexasHoldem_V2
+PROJECTNAME=Project2_TexasHoldem_V3
 
 # Active Configuration
 DEFAULTCONF=Debug
