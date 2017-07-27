@@ -51,14 +51,16 @@ int main(int argc, char** argv) {
     
     //Declare variables
     const int SIZE=52;
-    const int F=13;
-    const int S=4;
     int cards[SIZE]={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,
                      21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,
                      38,39,40,41,42,43,44,45,46,47,48,49,50,51,52};//deck of cards
+    
+    /* Remove??
+    const int F=13;
+    const int S=4;
     char face[F]={2,3,4,5,6,7,8,9,'T','J','Q','K','A'};//card's face used for comparison
-    char suit[S]={'S','C','D','H'};//card's suit used for comparison
-    int card[SIZE];
+    char suit[S]={'S','C','D','H'};//card's suit used for comparison*/
+    
     bool replay=false;
     char choice;//Menu choice
     float bet, pot=0.0f, pMoney=500.0f, oMoney=500.0f;//bet related variables
@@ -152,38 +154,78 @@ int main(int argc, char** argv) {
             bool strFlsh=false;//straight flush, a straight with the same suit
             bool royFlsh=false;//royal flush, 10-Ace straight flush
             
-        //comprising hands of opponent
-        
-        //comprising hands of player
-        int count[F]={};//counter array
-        int numpair=0;//counts the number of pairs
-        for(int i=0; i<9; i++){//how many cards make a hand
-            for(int j=0; j<F; j++){//comparing each card to face
-                numpair=0;//resets pair counter 
-                if(shwface(cards,i)==face[j]){//how many cards have the same face
-                    numpair++;
-                    count[j]=numpair;
+        //Finding pairs in the opponent's hand
+            const int COL=2;
+            int count[13][COL]={};//counter array
+            if (shwface(cards,0)==shwface(cards,2))count[0][1]+=1;//finds pair in opponent's hole cards
+            for (int i=4;i<9;i++){//finds pairs with opp hole cards in com 
+                if (shwface(cards,0)==shwface(cards,i))count[0][1]+=1;
+            }cout<<"Number of pairs for the opponent's first card: "
+                    <<count[0][1]<<endl;
+            for (int i=4;i<9;i++){//finds pairs with opp hole cards in com 
+                if (shwface(cards,2)==shwface(cards,i))count[1][1]+=1;
+            }cout<<"Number of pairs for the opponent's second card: "
+                    <<count[1][1]<<endl;
+            for(int i=4;i<9;i++){//finds pairs in com cards
+                for(int j=i+1;j<9;j++){
+                    if (shwface(cards,i)==shwface(cards,j))count[2][1]+=1;
                 }
-            }
-        }cout<<endl;
-        for(int loop=0;loop<F;loop++)cout<<"number of cards with same face value"
-                " "<<count[loop]<<endl;
-        cout<<endl<<endl;
-        for(int i=4; i<9; i++){//how many cards make a hand
-            cout<<"number of pairs "<<numpair<<endl;
-            for(int j=0; j<4; j++){//comparing each card to face
-                if(shwsuit(cards,i)==suit[j])numpair++;
-            }
-        }
-        /*bool arayEql=false;
-        int count=0,c=0;
-        while(c<9){
-            if(shwface(cards,c)==face[c]){
-                count++;
-                cout<<"How many pairs there are? "<<count<<endl;
-            }    
-            c++;
-        }*/
+            }cout<<"Number of pairs in the community cards: "<<count[2][1]
+                    <<endl<<endl;
+        //Finding cards w/ same suit
+            if (shwsuit(cards,0)==shwsuit(cards,2))count[0][2]+=1;//finds same suit in opponent's hole cards
+            for (int i=4;i<9;i++){//finds same suit with opp hole cards in com 
+                if (shwsuit(cards,0)==shwsuit(cards,i))count[0][2]+=1;
+            }cout<<"Number of cards with same suit for the opponent's first "
+                    <<"card: "<<count[0][2]<<endl;
+            for (int i=4;i<9;i++){//finds same suit with opp hole cards in com 
+                if (shwsuit(cards,2)==shwsuit(cards,i))count[1][2]+=1;
+            }cout<<"Number of cards with same suit for the opponent's second "
+                    "card: "<<count[1][2]<<endl;
+            for(int i=4;i<9;i++){//finds same suit in com cards
+                for(int j=i+1;j<9;j++){
+                    if (shwsuit(cards,i)==shwsuit(cards,j))count[2][2]+=1;
+                }
+            }cout<<"Number of cards with same suit in the community cards: "
+                    <<count[2][2]<<endl;
+            //Determine hand
+                for(int i=1;i<=2;i++){
+                    for(int j=0;j<=2;j++){
+                        if(count[j][i]==1)pair=true;
+                        else if(count[j][i]&&count[j+1][i]==1)twoPair=true;
+                        else if(count[j][i]==2)thrKind=true;
+                        else if(count[j][i]==2&&count[j+1][i]==1)flHouse=true;
+                        else if(count[j][i]==3)fourKnd=true;
+                    }
+                }
+            
+        //Finding pairs in the player's hand
+            if (shwface(cards,1)==shwface(cards,3))count[3][1]+=1;
+            for (int i=4;i<9;i++){
+                if (shwface(cards,1)==shwface(cards,i))count[3][1]+=1;
+            }cout<<"Number of pairs for the first card: "<<count[3][1]<<endl;
+            for (int i=4;i<9;i++){
+                if (shwface(cards,3)==shwface(cards,i))count[4][1]+=1;
+            }cout<<"Number of pairs for the second card: "<<count[4][1]<<endl;
+            for(int i=4;i<9;i++){
+                for(int j=i+1;j<9;j++){
+                    if (shwface(cards,i)==shwface(cards,j))count[5][1]+=1;
+                }
+            }cout<<"Number of pairs for the community cards: "<<count[5][1]<<endl;
+            //Determine hand
+                for(int i=1;i<=2;i++){
+                    for(int j=3;j<=5;j++){
+                        if(count[j][i]==1)pair=true;
+                        else if(count[j][i]&&count[j+1][i]==1)twoPair=true;
+                        else if(count[j][i]==2)thrKind=true;
+                        else if(count[j][i]==2&&count[j+1][i]==1)flHouse=true;
+                        else if(count[j][i]==3)fourKnd=true;
+                    }
+                }
+            
+        //Compare hands
+            
+            
         cout<<"Player hand: "<<shwface(cards,1)<<shwsuit(cards,1)<<"  "<<shwface(cards,3)
                     <<shwsuit(cards,3)<<" Opponent hand: "<<shwface(cards,0)
                     <<shwsuit(cards,0)<<" "<<shwface(cards,2)<<shwsuit(cards,2)
